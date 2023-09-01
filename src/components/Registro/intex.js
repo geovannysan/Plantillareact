@@ -15,7 +15,7 @@ import {
 import { Formik, Form, Field, useField } from "formik"
 import * as Yup from "yup"
 import { TextField } from "formik-material-ui"
-import { Guardarsolicitud } from "../../utils/Query"
+import { EnviaWhast, Guardarsolicitud } from "../../utils/Query"
 
 
 const MyTextArea = ({ label, ...props }) => {
@@ -64,10 +64,10 @@ let validationSchema = Yup.object().shape({
     Nombre: Yup.string().required("Required"),
     cedula: Yup.string().required("Required"),
     cantiadad: Yup.string().required("Required"),
-    Prioridad:Yup.string().required("Required"),
-    asunto:Yup.string().required("Required"),
-    Tipo:Yup.string().required("Required")
-    
+    Prioridad: Yup.string().required("Required"),
+    asunto: Yup.string().required("Required"),
+    Tipo: Yup.string().required("Required")
+
 })
 
 const UserForm = () => {
@@ -75,22 +75,31 @@ const UserForm = () => {
 
     const onSubmit = (values, { resetForm }) => {
         console.log(values)
-        let parms={
+        let parms = {
             fecha: new Date(),
             estado: "Pendiente",
-            observacion:"",
+            observacion: "",
             ...values
         }
-        Guardarsolicitud(parms).then(oup=>{
+        Guardarsolicitud(parms).then(oup => {
             console.log(oup)
-            resetForm();
-            alert("Solicitud registrada\n Espere a que la accesora se comunique")
-        }).catch(err=>{
+            if (oup.status) {
+                resetForm();
+                let informa = {
+                    "user_id": "593997804922",
+                    "message": "Nueva solicitud registrada: "+values.Nombre + "" + values.cedula+"\n"+values.asunto,
+                }
+                EnviaWhast(informa).then(o=>{
+                    console.log(o)
+                })
+                alert("Solicitud registrada\n Espere a que la accesora se comunique")
+            }
+        }).catch(err => {
             console.log(err)
         })
 
     }
-  
+
 
     return (
 
@@ -130,7 +139,7 @@ const UserForm = () => {
                                         </Grid>
                                         <Grid item xs={12} sm={6} md={6}>
                                             <Field
-                                                label={ values.Tipo == "Trabajos" ? "EMPLEADOS":"Nombre"}
+                                                label={values.Tipo == "Trabajos" ? "EMPLEADOS" : "Nombre"}
                                                 variant="outlined"
                                                 fullWidth
                                                 name="Nombre"
@@ -150,9 +159,9 @@ const UserForm = () => {
                                             />
                                         </Grid>
                                         <Grid item xs={12} sm={6} md={6}>
-                                            {values.Tipo == "Trabajos" ? <label>hora de inicio</label>:
-                                            <label>Digíte la cantidad</label>}
-                                            {values.Tipo =="Trabajos"?
+                                            {values.Tipo == "Trabajos" ? <label>hora de inicio</label> :
+                                                <label>Digíte la cantidad</label>}
+                                            {values.Tipo == "Trabajos" ?
                                                 <Field
                                                     variant="outlined"
                                                     fullWidth
@@ -161,15 +170,15 @@ const UserForm = () => {
                                                     value={values.cantiadad}
                                                     component={TextField}
                                                 />
-                                            :
-                                            <Field
-                                                label={values.Tipo == "Anticipo" ? "cantidad" : "# de días"}
-                                                variant="outlined"
-                                                fullWidth
-                                                name="cantiadad"
-                                                value={values.cantiadad}
-                                                component={TextField}
-                                            />}
+                                                :
+                                                <Field
+                                                    label={values.Tipo == "Anticipo" ? "cantidad" : "# de días"}
+                                                    variant="outlined"
+                                                    fullWidth
+                                                    name="cantiadad"
+                                                    value={values.cantiadad}
+                                                    component={TextField}
+                                                />}
                                         </Grid>
                                         {/*<Grid item xs={12} sm={12} md={12}>
                                                 <FormControl fullWidth variant="outlined">
@@ -198,7 +207,7 @@ const UserForm = () => {
 
                                         <Grid item xs={12} sm={6} md={6}>
                                             {values.Tipo == "Trabajos" ? <label>hora de cierre</label> : <label>Fecha requerida</label>}
-                                            
+
                                             <Field
                                                 label=""
                                                 variant="outlined"
@@ -215,9 +224,9 @@ const UserForm = () => {
                                                 rows="5"
                                                 name="asunto"
                                                 value={values.asunto}
-                                                placeholder={values.Tipo == "Trabajos"?"Por favor detalle todas las personas que realizaran el trabajo":"Por favor detalle su solicitud "}
+                                                placeholder={values.Tipo == "Trabajos" ? "Por favor detalle todas las personas que realizaran el trabajo" : "Por favor detalle su solicitud "}
                                             />
-                                          { /* <Field
+                                            { /* <Field
                                                 label=""
                                                 as="textarea"
                                                 variant="outlined"
