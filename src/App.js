@@ -6,16 +6,16 @@ import UserForm from './components/Registro/intex';
 function App() {
   return (
     <div className=" px-0 vh-100"  style={{
-      overflow:"hidden"
+    
     }}>
       {/*<SearchAppBar />*/}
       <div className=' ' style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        height:"100%"
+        
       }}>
-        <div className='  col-12 col-md-6 shadow-lg '
+        <div className='  col-12 col-md-8 shadow-lg '
 
         >
           <UserForm />
