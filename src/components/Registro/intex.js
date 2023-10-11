@@ -37,8 +37,6 @@ const initialValues = {
     Nombre: "",
     cedula: "",
     Tipo: "",
-    cantiadad: "",
-    Prioridad: "",
     asunto: ""
 }
 
@@ -63,8 +61,8 @@ const lengthRegEx = /(?=.{6,})/
 let validationSchema = Yup.object().shape({
     Nombre: Yup.string().required("Required"),
     cedula: Yup.string().required("Required"),
-    cantiadad: Yup.string().required("Required"),
-    Prioridad: Yup.string().required("Required"),
+    //cantiadad: Yup.string().required("Required"),
+    //Prioridad: Yup.string().required("Required"),
     asunto: Yup.string().required("Required"),
     Tipo: Yup.string().required("Required")
 
@@ -78,10 +76,14 @@ const UserForm = () => {
         let parms = {
             fecha: new Date(),
             estado: "Pendiente",
-            observacion: "",
-            ...values
+            Nombre:values.Nombre,
+            cedula:values.cedula,
+            asunto:values.asunto,
+            Tipo:values.Tipo,
+            Prioridad:JSON.stringify({...values})
         }
-        Guardarsolicitud(parms).then(oup => {
+        console.log(parms)
+       /* Guardarsolicitud(parms).then(oup => {
             console.log(oup)
             if (oup.status) {
                 resetForm();
@@ -96,7 +98,7 @@ const UserForm = () => {
             }
         }).catch(err => {
             console.log(err)
-        })
+        })*/
 
     }
 
@@ -131,7 +133,7 @@ const UserForm = () => {
                             label={"Cargo que Ocupa"}
                             variant="outlined"
                             fullWidth
-                            type={"nmber"}
+                            type={""}
                             name="cargo"
                             value={values.cargo}
                             component={TextField}
@@ -216,27 +218,118 @@ const UserForm = () => {
                             placeholder={"Por favor detalle el motivo de su solicitud "}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6} md={12}>
-                        <FormControl fullWidth variant="outlined">
-                            <InputLabel id="demo-simple-select-outlined-label">
-                                Tipo
-                            </InputLabel>
-                            <Select
-                                labelId="demo-simple-select-outlined-label"
-                                id="demo-simple-select-outlined"
-                                label="aprobador"
-                                value={values.aprobador}
-                                name="aprobador">
-                                <MenuItem >none</MenuItem>
-                                <MenuItem value={"Sra. Irene"}>
-                                    Sra. Irene
-                                </MenuItem>
-                                <MenuItem value={"Don Carlos"}>
-                                    Don Carlos
-                                </MenuItem>
-                            </Select>
-                        </FormControl>
+                    
+
+                </Grid>
+            </CardContent>
+        )
+    }
+    const TrabajosView = (values) => {
+        return (
+            <CardContent>
+                <Grid item container spacing={1} justify="center">
+
+                    <Grid item xs={12} sm={6} md={6}>
+                        <Field
+                            label={"Nombre Completos"}
+                            variant="outlined"
+                            fullWidth
+                            name="Nombre"
+                            value={values.Nombre}
+                            component={TextField}
+                        />
                     </Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+                        <Field
+                            label={"Documento de identificación"}
+                            variant="outlined"
+                            fullWidth
+                            type={"number"}
+                            name="cedula"
+                            value={values.cedula}
+                            component={TextField}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+                        <Field
+                            label={"Cargo que Ocupa"}
+                            variant="outlined"
+                            fullWidth
+                            type={""}
+                            name="cargo"
+                            value={values.cargo}
+                            component={TextField}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+                        <Field
+                            label={"Area o proceso de trabajo"}
+                            variant="outlined"
+                            fullWidth
+                            type={""}
+                            name="area"
+                            value={values.area}
+                            component={TextField}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+                        <Field
+                            label={"Oficiona/secion"}
+                            variant="outlined"
+                            fullWidth
+                            type={""}
+                            name="oficina"
+                            value={values.oficina}
+                            component={TextField}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+                        <Field
+                            label={"Teléfono"}
+                            variant="outlined"
+                            fullWidth
+                            type={""}
+                            name="telefono"
+                            value={values.telefono}
+                            component={TextField}
+                        />
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+
+                        <label>Inicio </label>
+                        <Field
+                            variant="outlined"
+                            fullWidth
+                            name="inicio"
+                            type="datetime-local"
+                            value={values.inicio}
+                            component={TextField}
+                        />
+
+                    </Grid>
+                    <Grid item xs={12} sm={6} md={6}>
+                        <label>Fin</label>
+                        <Field
+                            label=""
+                            variant="outlined"
+                            type="datetime-local"
+                            fullWidth
+                            name="fin"
+                            value={values.fin}
+                            component={TextField}
+                        />
+                    </Grid>
+                 
+                    <Grid item xs={12} sm={12} md={12}>
+                        <label>Detalle </label>
+                        <MyTextArea
+                            rows="5"
+                            name="asunto"
+                            value={values.asunto}
+                            placeholder={"Por favor detalle el la actividad y las personas \nque intervinieron "}
+                        />
+                    </Grid>
+                 
 
                 </Grid>
             </CardContent>
@@ -415,33 +508,13 @@ const UserForm = () => {
                             placeholder={"Por favor detalle el motivo de su solicitud "}
                         />
                     </Grid>
-                    <Grid item xs={12} sm={6} md={12}>
-                        <FormControl fullWidth variant="outlined">
-                            <InputLabel id="demo-simple-select-outlined-label">
-                                Aprobado por
-                            </InputLabel>
-                            <Select
-                                labelId="demo-simple-select-outlined-label"
-                                id="demo-simple-select-outlined"
-                                label="aprobador"
-                                value={values.aprobador}
-                                name="aprobador">
-                                <MenuItem >none</MenuItem>
-                                <MenuItem value={"Sra. Irene"}>
-                                    Sra. Irene
-                                </MenuItem>
-                                <MenuItem value={"Don Carlos"}>
-                                    Don Carlos
-                                </MenuItem>
-                            </Select>
-                        </FormControl>
-                    </Grid>
+                   
 
                 </Grid>
             </CardContent>
         )
     }
-    
+
     return (
 
         <Grid item md={6}>
@@ -457,7 +530,7 @@ const UserForm = () => {
                                 <Form>
                                     <CardContent>
                                         <Grid item container spacing={1} justify="center">
-                                            <Grid item xs={12} sm={6} md={12}>
+                                            <Grid item xs={12} >
                                                 <FormControl fullWidth variant="outlined">
                                                     <InputLabel id="demo-simple-select-outlined-label">
                                                         Tipo
@@ -479,70 +552,35 @@ const UserForm = () => {
                                                     </Select>
                                                 </FormControl>
                                             </Grid>
-                                            <Grid item xs={12} sm={6} md={6}>
-                                                <Field
-                                                    label={values.Tipo == "Trabajos" ? "EMPLEADOS" : "Nombre"}
-                                                    variant="outlined"
-                                                    fullWidth
-                                                    name="Nombre"
-                                                    value={values.Nombre}
-                                                    component={TextField}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={6} md={6}>
-                                                <Field
-                                                    label={values.Tipo == "Trabajos" ? "RESPONSABLE" : "CÉDULA"}
-                                                    variant="outlined"
-                                                    fullWidth
-                                                    type={values.Tipo == "Trabajos" ? "" : "number"}
-                                                    name="cedula"
-                                                    value={values.cedula}
-                                                    component={TextField}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={6} md={6}>
-                                                {values.Tipo == "Trabajos" ? <label>hora de inicio</label> :
-                                                    <label>Digíte la cantidad</label>}
-                                                {values.Tipo == "Trabajos" ?
-                                                    <Field
-                                                        variant="outlined"
-                                                        fullWidth
-                                                        name="cantiadad"
-                                                        type="datetime-local"
-                                                        value={values.cantiadad}
-                                                        component={TextField}
-                                                    />
-                                                    :
-                                                    <Field
-                                                        label={values.Tipo == "Anticipo" ? "cantidad" : "# de días"}
-                                                        variant="outlined"
-                                                        fullWidth
-                                                        name="cantiadad"
-                                                        value={values.cantiadad}
-                                                        component={TextField}
-                                                    />}
-                                            </Grid>
-                                            <Grid item xs={12} sm={6} md={6}>
-                                                {values.Tipo == "Trabajos" ? <label>hora de cierre</label> : <label>Fecha requerida</label>}
-
-                                                <Field
-                                                    label=""
-                                                    variant="outlined"
-                                                    type="datetime-local"
-                                                    fullWidth
-                                                    name="Prioridad"
-                                                    value={values.Prioridad}
-                                                    component={TextField}
-                                                />
-                                            </Grid>
-                                            <Grid item xs={12} sm={12} md={12}>
-                                                <label>Asunto </label>
-                                                <MyTextArea
-                                                    rows="5"
-                                                    name="asunto"
-                                                    value={values.asunto}
-                                                    placeholder={values.Tipo == "Trabajos" ? "Por favor detalle todas las personas que realizaran el trabajo" : "Por favor detalle su solicitud "}
-                                                />                                            
+                                            {values.Tipo == "Trabajos" ? <TrabajosView values={values} handleChange={handleChange} handleBlur={handleBlur} /> : ""}
+                                            {values.Tipo == "Permiso" ?
+                                                <PermisoView values={values} handleChange={handleChange} handleBlur={handleBlur} />
+                                                : ""}
+                                            {values.Tipo == "Anticipo" ?
+                                                <PrestamoView values={values} handleChange={handleChange} handleBlur={handleBlur} />:""    
+                                        }
+                                            <Grid item xs={12} sm={6} md={12}>
+                                                <FormControl fullWidth variant="outlined">
+                                                    <InputLabel id="demo-simple-select-outlined-label">
+                                                        Aprobado por
+                                                    </InputLabel>
+                                                    <Select
+                                                        labelId="demo-simple-select-outlined-label"
+                                                        id="demo-simple-select-outlined"
+                                                        label="aprobador"
+                                                        onChange={handleChange}
+                                                        onBlur={handleBlur}
+                                                        value={values.aprobador}
+                                                        name="aprobador">
+                                                        <MenuItem >none</MenuItem>
+                                                        <MenuItem value={"Sra. Irene"}>
+                                                            Sra. Irene
+                                                        </MenuItem>
+                                                        <MenuItem value={"Don Carlos"}>
+                                                            Don Carlos
+                                                        </MenuItem>
+                                                    </Select>
+                                                </FormControl>
                                             </Grid>
                                         </Grid>
                                     </CardContent>
