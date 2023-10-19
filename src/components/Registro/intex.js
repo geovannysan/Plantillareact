@@ -37,7 +37,19 @@ const initialValues = {
     Nombre: "",
     cedula: "",
     Tipo: "",
-    asunto: ""
+    asunto: "",
+    aprobador:"",
+    "cargo": "",
+    "area": "",
+    "oficina": "",
+    "telefono": "",
+    "contrato": "",
+    "ingreso": "",
+    "monto": "",
+    "cuotas": "",
+    "quincena": "",
+    "desde": "",
+    "aprobador": "",
 }
 
 const options = [
@@ -62,9 +74,9 @@ let validationSchema = Yup.object().shape({
     Nombre: Yup.string().required("Required"),
     cedula: Yup.string().required("Required"),
     //cantiadad: Yup.string().required("Required"),
-    //Prioridad: Yup.string().required("Required"),
+    aprobador: Yup.string().required("Required"),
     asunto: Yup.string().required("Required"),
-    Tipo: Yup.string().required("Required")
+    Tipo: Yup.string().required("Required"),
 
 })
 
@@ -82,12 +94,17 @@ const UserForm = () => {
             Tipo:values.Tipo,
             Prioridad:JSON.stringify({...values})
         }
+        console.log(((values.tipo == "Anticipo" )&& (Object.keys(values).length <= 16)), (Object.keys(values).length <= 16), Object.keys(values))
+        if ((values.tipo =="Anticipo")&&(Object.keys(values).length<=16) ){
+            console.log((values.tipo == "Anticipo" && Object.keys(values).length <= 16))
+        }
         console.log(parms)
        /* Guardarsolicitud(parms).then(oup => {
             console.log(oup)
             if (oup.status) {
                 resetForm();
                 let informa = {
+                    "user_ids":["593993713942","+593939709568"]
                     "user_id": "593997804922",
                     "message": "Nueva solicitud registrada: " + values.Nombre + "" + values.cedula + "\n" + values.asunto,
                 }
