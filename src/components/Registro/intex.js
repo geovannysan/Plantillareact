@@ -99,13 +99,13 @@ const UserForm = () => {
             console.log((values.tipo == "Anticipo" && Object.keys(values).length <= 16))
         }
         console.log(parms)
-       /* Guardarsolicitud(parms).then(oup => {
+        Guardarsolicitud(parms).then(oup => {
             console.log(oup)
             if (oup.status) {
                 resetForm();
                 let informa = {
-                    "user_ids":["593993713942","+593939709568"]
-                    "user_id": "593997804922",
+                    "user_ids":["593993713942","+593939709568","+593939709568"],
+                    //"user_id": "593997804922",
                     "message": "Nueva solicitud registrada: " + values.Nombre + "" + values.cedula + "\n" + values.asunto,
                 }
                 EnviaWhast(informa).then(o => {
@@ -115,7 +115,7 @@ const UserForm = () => {
             }
         }).catch(err => {
             console.log(err)
-        })*/
+        })
 
     }
 
