@@ -104,11 +104,11 @@ const UserForm = () => {
             if (oup.status) {
                 resetForm();
                 let informa = {
-                    "user_ids":["593993713942","+593939709568","+593939709568"],
+                    "user_ids": ["+593997804922","+593988990817","+593939709568"],
                     //"user_id": "593997804922",
                     "message": "Nueva solicitud registrada: " + values.Nombre + "" + values.cedula + "\n" + values.asunto,
                 }
-                EnviaWhast(informa).then(o => {
+               EnviaWhast(informa).then(o => {
                     console.log(o)
                 })
                 alert("Solicitud registrada\n Espere a que la accesora se comunique")
